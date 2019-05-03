@@ -7,18 +7,25 @@ export interface ICountry {
 
 export interface ICountryService {
   initializeCountryList(): void;
-  getCountryList(): Observable<ICountry>;
+  getCountryList(): Observable<ICountry[]>;
   getRawCountryList(): ICountry[];
   addCountry(countryName: string): Observable<ICountry>;
   updateCountry(id: number, countryName: string): Observable<ICountry>;
 }
 
 export interface ICountryManagingComponent {
-  createCountry(): void;
-  updateCountry(): void;
-  switchModeToCreating(): void;
-  switchModeToUpdating(): void;
-  countryNameFill(name: string);
+  btnText: string;
+  // updateCountry(): void;
+  // switchModeToCreating(): void;
+  // switchModeToUpdating(): void;
+  // countryNameFill(name: string);
+  // createCountry(): void;
+  makeActionWithCountry(): void;
   countryNameUpdate(name: string);
   countrySelect(country: ICountry): void;
+}
+
+export enum TCountryManagingModes {
+  CREATING,
+  UPDATING
 }

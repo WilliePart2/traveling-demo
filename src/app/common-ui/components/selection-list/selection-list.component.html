@@ -1,0 +1,9 @@
+<mat-selection-list #selectionList>
+  <mat-list-option
+    *ngFor="let item of items | async"
+    [value]="item"
+    [selected]="selectedItem === item"
+  >
+    {{item.name}}
+  </mat-list-option>
+</mat-selection-list>

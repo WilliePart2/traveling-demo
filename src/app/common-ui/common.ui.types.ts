@@ -17,3 +17,8 @@ export interface IFormComponent {
   isValid: boolean;
   reset(): void;
 }
+
+export interface IListItem {
+  id: number;
+  name: string;
+}

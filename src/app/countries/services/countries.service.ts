@@ -42,10 +42,11 @@ export class CountriesService implements ICountryService {
     );
   }
 
-  getCountryList(): Observable<ICountry> {
-    return this.query.getCountryList().pipe(
-      mergeMap((countries: ICountry[]) => from(countries))
-    );
+  getCountryList(): Observable<ICountry[]> {
+    return this.query.getCountryList();
+    //   .pipe(
+    //   mergeMap((countries: ICountry[]) => from(countries))
+    // );
   }
 
   getRawCountryList(): ICountry[] {

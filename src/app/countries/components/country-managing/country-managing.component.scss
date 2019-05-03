@@ -1,0 +1,27 @@
+:host {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.country-name-form {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+
+  & div:first-child {
+    flex-grow: 1;
+  }
+}
+
+.country-action-btn {
+  margin-left: 10px;
+}
+
+.country-list {
+  width: 50%;
+  max-height: 500px;
+  overflow-y: auto;
+}

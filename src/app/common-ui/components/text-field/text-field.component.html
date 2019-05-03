@@ -1,0 +1,13 @@
+<mat-form-field class="full-width-field">
+  <mat-label>
+    {{label}}
+  </mat-label>
+  <input matInput
+         type="text"
+         [placeholder]="placeholder"
+         [formControl]="textField"
+  />
+  <mat-error>
+    {{errorMsg}}
+  </mat-error>
+</mat-form-field>
