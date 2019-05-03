@@ -1,0 +1,11 @@
+<div class="user-creating-container">
+  <mat-form-field>
+    <mat-label>
+      {{texts.usernameFieldLabel}}
+    </mat-label>
+    <input type="text" matInput [formControl]="username" />
+    <mat-error *ngIf="username.touched && username.invalid">
+      {{texts.usernameErrorMsg}}
+    </mat-error>
+  </mat-form-field>
+</div>

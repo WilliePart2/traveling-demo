@@ -1,0 +1,20 @@
+<mat-tab-group>
+  <mat-tab [label]="texts.countryCreateLabel" (click)="switchModeToCreating()">
+    <app-country-creating-form
+      (fillCountryName)="countryNameFill($event)"
+    >
+    </app-country-creating-form>
+    <button mat-raised-button (click)="createCountry()">
+      {{texts.addCountryBtnText}}
+    </button>
+  </mat-tab>
+  <mat-tab [label]="texts.countryUpdateLabel" (click)="switchModeToUpdating()">
+    <app-country-creating-form
+      (fillCountryName)="countryNameUpdate($event)"
+    >
+    </app-country-creating-form>
+    <button mat-raised-button (click)="updateCountry()">
+      {{texts.updateCountryBtnText}}
+    </button>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,13 @@
+<mat-sidenav-container class="full-height-menu">
+  <mat-sidenav-content>
+    <mat-nav-list *ngFor="let menuItem of menuItems">
+      <a
+        mat-list-item
+        [routerLink]="menuItem.link"
+        routerLinkActive="active-menu-item"
+      >
+        {{menuItem.label}}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav-content>
+</mat-sidenav-container>

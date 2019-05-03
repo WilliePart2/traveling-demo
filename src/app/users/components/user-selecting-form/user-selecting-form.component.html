@@ -1,0 +1,15 @@
+<div class="user-selecting-container">
+  <mat-form-field>
+    <mat-label>
+      {{texts.selectUserFieldLabel}}
+    </mat-label>
+    <mat-select [formControl]="userSelectBox">
+      <mat-option *ngFor="let user of userList$ | async" [value]="user.id">
+        {{user.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="userSelectBox.touched && userSelectBox.invalid">
+      {{texts.selectingUserError}}
+    </mat-error>
+  </mat-form-field>
+</div>

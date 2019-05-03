@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+
+.full-height-menu {
+  height: 100%;
+}
+
+.active-menu-item {
+  background-color: mat-color($mat-gray, 100);
+}
