@@ -14,6 +14,14 @@ export interface IUserService {
   updateUserData(user: IUser): Observable<IUser>;
 }
 
+export interface IUserManagingComponent {
+  btnText: string;
+  isFormValid: boolean;
+  onUsernameUpdated(username: string): void;
+  makeActionWithUser(): void;
+  onUserSelected(user: IUser): void;
+}
+
 export enum TUserManagingModes {
   CREATING,
   EDITING

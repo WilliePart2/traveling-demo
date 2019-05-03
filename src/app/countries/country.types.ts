@@ -15,11 +15,7 @@ export interface ICountryService {
 
 export interface ICountryManagingComponent {
   btnText: string;
-  // updateCountry(): void;
-  // switchModeToCreating(): void;
-  // switchModeToUpdating(): void;
-  // countryNameFill(name: string);
-  // createCountry(): void;
+  isFormValid: boolean;
   makeActionWithCountry(): void;
   countryNameUpdate(name: string);
   countrySelect(country: ICountry): void;

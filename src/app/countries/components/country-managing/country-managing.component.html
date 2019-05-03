@@ -9,7 +9,10 @@
     </app-text-field>
   </div>
   <div class="country-action-btn">
-    <button mat-raised-button (click)="makeActionWithCountry()">
+    <button mat-raised-button
+            [disabled]="!isFormValid"
+            (click)="makeActionWithCountry()"
+    >
       {{btnText}}
     </button>
   </div>

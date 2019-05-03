@@ -158,6 +158,10 @@
     {
       "id": 16,
       "name": "Another country"
+    },
+    {
+      "id": 17,
+      "name": "NewOne"
     }
   ],
   "user_countries": []

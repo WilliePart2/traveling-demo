@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {CommonTexts} from '../../../configuration/models/common.texts';
 import {UserService} from '../../services/user.service';
-import {IUser, TUserManagingModes} from '../../users.types';
+import {IUser, IUserManagingComponent, TUserManagingModes} from '../../users.types';
 import {Observable} from 'rxjs';
 import {IFormComponent} from '../../../common-ui/common.ui.types';
 
@@ -10,7 +10,7 @@ import {IFormComponent} from '../../../common-ui/common.ui.types';
   templateUrl: './user-managing.component.html',
   styleUrls: ['./user-managing.component.scss']
 })
-export class UserManagingComponent implements OnInit, AfterViewInit {
+export class UserManagingComponent implements OnInit, AfterViewInit, IUserManagingComponent {
   @ViewChild('usernameField') private usernameFieldRef: IFormComponent;
   @ViewChild('userList') private userListRef: IFormComponent;
   private selectedUser: IUser;

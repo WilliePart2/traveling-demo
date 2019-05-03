@@ -25,6 +25,11 @@ export class CountryManagingComponent implements OnInit, ICountryManagingCompone
       ? this.texts.addCountryBtnText
       : this.texts.updateCountryBtnText;
   }
+  get isFormValid(): boolean {
+    return this.mode === TCountryManagingModes.CREATING
+      ? this.countryNameForm.isValid
+      : !!this.selectedCountry;
+  }
 
   constructor(
     private config: MainConfigService,
@@ -47,7 +52,12 @@ export class CountryManagingComponent implements OnInit, ICountryManagingCompone
 
   countrySelect(country: ICountry): void {
     this.selectedCountry = country;
-    this.mode = TCountryManagingModes.UPDATING;
+    if (!country) {
+      this.switchModeToCreating();
+      this.countryNameForm.reset();
+    } else {
+      this.switchModeToUpdating();
+    }
   }
 
   makeActionWithCountry(): void {
@@ -73,5 +83,9 @@ export class CountryManagingComponent implements OnInit, ICountryManagingCompone
 
   private switchModeToCreating() {
     this.mode = TCountryManagingModes.CREATING;
+  }
+
+  private switchModeToUpdating() {
+    this.mode = TCountryManagingModes.UPDATING;
   }
 }
