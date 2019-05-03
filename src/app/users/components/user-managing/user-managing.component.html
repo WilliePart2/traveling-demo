@@ -1,38 +1,26 @@
-<mat-tab-group>
-  <mat-tab
-    [label]="texts.createUserTabName"
-    (click)="switchModeToCreating()"
-  >
-    <app-user-creating-form
-      (usernameUpdate)="onUsernameFilled($event)"
-    ></app-user-creating-form>
-    <button
-      mat-raised-button
-      [disabled]="!isFormValid"
-      (click)="createUser()"
+<div class="user-name-field">
+  <div>
+    <app-text-field [label]="texts.usernameFieldLabel"
+                    [errorMsg]="texts.usernameErrorMsg"
+                    [value]="selectedUser?.name"
+                    (valueChange)="onUsernameUpdated($event)"
+                    #usernameField
+    ></app-text-field>
+  </div>
+  <div class="user-action-btn">
+    <button mat-raised-button
+            [disabled]="!isFormValid"
+            (click)="makeActionWithUser()"
     >
-      {{texts.addUserBtn}}
+      {{btnText}}
     </button>
-  </mat-tab>
-  <mat-tab
-    [label]="texts.editUserTabName"
-    (click)="switchModeToEditing()"
+  </div>
+</div>
+<mat-card class="user-list">
+  <app-selection-list
+    [items]="userList$"
+    (itemSelected)="onUserSelected($event)"
+    #userList
   >
-    <app-user-selecting-form
-      (selectUser)="onUserSelected($event)"
-    >
-    </app-user-selecting-form>
-    <app-user-creating-form
-      #userUpdating
-      (usernameUpdate)="onUsernameUpdated($event)"
-    >
-    </app-user-creating-form>
-    <button
-      mat-raised-button
-      [disabled]="!isFormValid"
-      (click)="updateUserData()"
-    >
-      {{texts.editUserBtnText}}
-    </button>
-  </mat-tab>
-</mat-tab-group>
+  </app-selection-list>
+</mat-card>

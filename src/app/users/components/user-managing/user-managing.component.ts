@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CommonTexts } from '../../../configuration/models/common.texts';
-import { UserCreatingFormComponent } from '../user-creating-form/user-creating-form.component';
-import { UserService } from '../../services/user.service';
-import { UserSelectingFormComponent } from '../user-selecting-form/user-selecting-form.component';
-import { IUser, TUserManagingModes } from '../../users.types';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {CommonTexts} from '../../../configuration/models/common.texts';
+import {UserService} from '../../services/user.service';
+import {IUser, TUserManagingModes} from '../../users.types';
+import {Observable} from 'rxjs';
+import {IFormComponent} from '../../../common-ui/common.ui.types';
 
 @Component({
   selector: 'app-user-managing',
@@ -11,16 +11,18 @@ import { IUser, TUserManagingModes } from '../../users.types';
   styleUrls: ['./user-managing.component.scss']
 })
 export class UserManagingComponent implements OnInit, AfterViewInit {
-  @ViewChild(UserCreatingFormComponent)
-  private userCreatingRef: UserCreatingFormComponent;
-  @ViewChild(UserSelectingFormComponent)
-  private userSelectingRef: UserSelectingFormComponent;
-  @ViewChild('userUpdating')
-  userUpdatingRef: UserCreatingFormComponent;
+  @ViewChild('usernameField') private usernameFieldRef: IFormComponent;
+  @ViewChild('userList') private userListRef: IFormComponent;
   private selectedUser: IUser;
   private username: string;
   private mode: TUserManagingModes = TUserManagingModes.CREATING;
+  userList$: Observable<IUser[]>;
   isFormValid = false;
+  get btnText() {
+    return this.mode === TUserManagingModes.CREATING
+      ? this.texts.addUserBtn
+      : this.texts.editUserBtnText;
+  }
 
   constructor(
     public texts: CommonTexts,
@@ -29,6 +31,7 @@ export class UserManagingComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.userService.initUsersList();
+    this.userList$ = this.userService.getUserList();
   }
 
   ngAfterViewInit() {
@@ -42,28 +45,30 @@ export class UserManagingComponent implements OnInit, AfterViewInit {
   }
 
   private checkUsernameValidity(): boolean {
-    return this.userCreatingRef.isValid;
+    return this.usernameFieldRef.isValid;
   }
 
   private checkSelectionValidity(): boolean {
-    return this.userSelectingRef.isValid && !!this.userUpdatingRef.isValid;
-  }
-
-  onUsernameFilled(username: string) {
-    this.username = username;
-    this.switchModeToCreating();
-    this.checkFormValidity();
+    return !!this.selectedUser;
   }
 
   onUsernameUpdated(username: string) {
     this.username = username;
-    this.switchModeToEditing();
+    if (!username && username !== null) {
+      this.switchModeToCreating();
+      this.resetFields();
+    }
     this.checkFormValidity();
   }
 
   onUserSelected(user: IUser) {
     this.selectedUser = user;
-    this.switchModeToEditing();
+    if (!user) {
+      this.resetFields();
+      this.switchModeToCreating();
+    } else {
+      this.switchModeToEditing();
+    }
     this.checkFormValidity();
   }
 
@@ -75,26 +80,21 @@ export class UserManagingComponent implements OnInit, AfterViewInit {
     this.mode = TUserManagingModes.EDITING;
   }
 
-  createUser() {
-    this.userService.addNewUser(this.username)
-      .subscribe(
-        (result: IUser) => this.userCreatingRef.reset(),
-        () => this.userCreatingRef.reset()
-      );
+  makeActionWithUser() {
+    if (this.mode === TUserManagingModes.CREATING) {
+      this.userService.addNewUser(this.username)
+        .subscribe(() => this.resetFields());
+    } else {
+      this.userService.updateUserData({
+        ...this.selectedUser,
+        name: this.username
+      }).subscribe(() => this.resetFields());
+    }
   }
 
-  updateUserData() {
-    this.userService.updateUserData({
-      ...this.selectedUser,
-      name: this.username
-    }).subscribe(
-      (result: IUser) => this.resetSelect(),
-      () => this.resetSelect()
-    );
-  }
-
-  private resetSelect() {
-    this.userSelectingRef.reset();
-    this.userUpdatingRef.reset();
+  private resetFields() {
+    this.usernameFieldRef.reset();
+    this.userListRef.reset();
+    this.selectedUser = null;
   }
 }

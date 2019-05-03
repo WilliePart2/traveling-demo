@@ -22,7 +22,8 @@ export class SelectionListComponent implements OnInit, IFormComponent {
   ngOnInit() {
     this.selectionSub = this.selectionList.selectionChange.subscribe(
       (selectedValue: MatSelectionListChange) => {
-        this.selectedItem = selectedValue.option.value as IListItem;
+        const isSelected: boolean = selectedValue.option.selected;
+        this.selectedItem = isSelected ? selectedValue.option.value as IListItem : null;
         this.selectItem(this.selectedItem);
       }
     );

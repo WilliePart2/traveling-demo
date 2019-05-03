@@ -53,18 +53,22 @@ export class CountryManagingComponent implements OnInit, ICountryManagingCompone
   makeActionWithCountry(): void {
     if (this.mode === TCountryManagingModes.CREATING) {
       this.countryService.addCountry(this.countryName)
-        .subscribe(() => this.countryNameForm.reset());
+        .subscribe(() => this._resetFields());
     } else {
       this.countryService.updateCountry(
         this.selectedCountry.id,
         this.countryName
       ).subscribe(() => {
-          this.countryNameForm.reset();
-          this.countryList.reset();
-          this.selectedCountry = null;
+          this._resetFields();
           this.switchModeToCreating();
       });
     }
+  }
+
+  private _resetFields() {
+    this.countryNameForm.reset();
+    this.countryList.reset();
+    this.selectedCountry = null;
   }
 
   private switchModeToCreating() {
