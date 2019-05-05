@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IMenuItem } from '../../menu.types';
 import { RoutingConfig } from '../../../configuration/models/routing.config';
+import { MainConfigService } from '../../../configuration/services/main.config.service';
+import { CommonTexts } from '../../../configuration/models/common.texts';
 
 @Component({
   selector: 'app-main-menu',
@@ -13,8 +15,9 @@ export class MainMenuComponent implements OnInit {
     { link: RoutingConfig.COUNTRIES, label: 'Countries' },
     { link: RoutingConfig.USER_COUNTRIES, label: 'User countries' }
   ];
+  texts: CommonTexts;
 
-  constructor() { }
+  constructor(private config: MainConfigService) { }
 
   ngOnInit() {}
 }

@@ -17,6 +17,8 @@ export interface ICommonTexts {
   updateCountryBtnText: string;
   countryName: string;
   selectCountry: string;
+  applyFilters: string;
+  applyChanges: string;
 
   // error labels
   usernameErrorMsg: string;
@@ -27,6 +29,8 @@ export interface ICommonTexts {
   countryCreatingError: string;
   countryNameError: string;
   countrySelectError: string;
+  hasVisaFieldLabel: string;
+  visitedFieldLabel: string;
 
   // general error
   necessaryInitFailed: string;
