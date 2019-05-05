@@ -3,7 +3,7 @@ import { IUser } from '../users/users.types';
 import { ICountry } from '../countries/country.types';
 import { Observable } from 'rxjs';
 import { IMessage } from '../messages/messages.types';
-import { IExtUsersCountry, IUsersCountry } from '../user-countries/user.countries.types';
+import { IExtUsersCountry, IUserCountriesFilterStatement, IUsersCountry } from '../user-countries/user.countries.types';
 
 export interface IUsersState extends EntityState<IUser> {}
 
@@ -12,6 +12,8 @@ export interface ICountriesState extends EntityState<ICountry> {}
 export interface IMessagesState extends EntityState<IMessage> {}
 
 export interface IUserCountriesState extends EntityState<IUsersCountry> {}
+
+export interface IUpdatedUserContriesState extends EntityState<IExtUsersCountry> {}
 
 export interface IUsersQuery {
   getUsersList(): Observable<IUser[]>;
@@ -61,11 +63,13 @@ export interface IUsersCountriesStateFacade {
   removeUsersCountry(id: number): void;
 }
 
-export interface IUserCountriesFilterStatement {
-  userId?: number;
-  visited?: boolean;
-  hasVisa?: boolean;
-  countryId?: number;
+export type TFilterFunction = (item: any, index?: number) => boolean;
+
+export interface IUpdatedUserCountriesQuery {
+  getUpdatedCountries(): Observable<IExtUsersCountry[]>;
 }
 
-export type TFilterFunction = (item: any, index?: number) => boolean;
+export interface IUpdatedUserCountriesStateFacade extends IStateFacade {
+  addUpdatedCountry(country: IExtUsersCountry): void;
+  resetUpdatedCountries(): void;
+}

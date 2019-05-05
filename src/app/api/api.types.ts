@@ -2,8 +2,12 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUser } from '../users/users.types';
 import { ICountry } from '../countries/country.types';
-import { IUsersCountry } from '../user-countries/user.countries.types';
-import { IUserCountriesFilterStatement } from '../store/store.types';
+import {
+  IExtUsersCountry,
+  IFetchCountriesFilterStatement,
+  IUserCountriesFilterStatement,
+  IUsersCountry
+} from '../user-countries/user.countries.types';
 
 export const enum TRequestTypes {
   GET = 'GET',
@@ -40,7 +44,8 @@ export interface ICountriesApi {
 }
 
 export interface IUserCountriesApi {
-  getUserCountriesList(filters: IUserCountriesFilterStatement): Observable<IUsersCountry[]>;
-  addUserCountry(country: IUsersCountry): Observable<IUsersCountry>;
-  removeUserCountry(id: number): Observable<IUsersCountry>;
+  getUserCountriesList(filters: IFetchCountriesFilterStatement): Observable<IUsersCountry[]>;
+  addUserCountries(countries: IUsersCountry[]): Observable<IUsersCountry[]>;
+  updateUserCountries(countries: IUsersCountry[]): Observable<IUsersCountry[]>;
+  removeUserCountries(countries: IUsersCountry[]): Observable<IUsersCountry[]>;
 }

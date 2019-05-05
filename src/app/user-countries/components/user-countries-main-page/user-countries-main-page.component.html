@@ -10,4 +10,7 @@
   <app-countries-table [countriesList]="countriesData"
                        (countryChanged)="onCountryUpdated($event)"
   ></app-countries-table>
+  <app-actions-section (saveChangesFired)="applyChanges()"
+                       [canAcceptAction]="hasUpdatedData"
+  ></app-actions-section>
 </div>

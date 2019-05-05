@@ -54,7 +54,7 @@ export class ApiService implements IHttpApi {
     return this._makeRequest<T>(TRequestTypes.PATCH, url, data);
   }
 
-  makeDeleteRequest<T>(url: string, data: object): Observable<T> {
+  makeDeleteRequest<T>(url: string, data?: object): Observable<T> {
     return this._makeRequest<T>(TRequestTypes.DELETE, url, data);
   }
 }

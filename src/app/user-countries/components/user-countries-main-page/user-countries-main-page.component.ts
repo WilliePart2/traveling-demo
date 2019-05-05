@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { UserCountriesService } from '../../services/user.countries.service';
-import { IExtUsersCountry, IUserCountriesControllerComponent, THasVisaTypes, TVisitedTypes } from '../../user.countries.types';
+import {
+  IExtUsersCountry,
+  IFetchCountriesFilterStatement,
+  IUserCountriesControllerComponent, IUserCountriesFilterStatement,
+  THasVisaTypes,
+  TVisitedTypes
+} from '../../user.countries.types';
 import { combineLatest, Observable, of } from 'rxjs';
 import { IUser } from '../../../users/users.types';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ICountry } from '../../../countries/country.types';
 import { CountriesService } from '../../../countries/services/countries.service';
 import { UserService } from '../../../users/services/user.service';
-import { IUserCountriesFilterStatement } from '../../../store/store.types';
+
 
 @Component({
   selector: 'app-user-countries-main-page',
@@ -15,31 +21,13 @@ import { IUserCountriesFilterStatement } from '../../../store/store.types';
   styleUrls: ['./user-countries-main-page.component.scss']
 })
 export class UserCountriesMainPageComponent implements OnInit, IUserCountriesControllerComponent {
-  private updatedCountries: IExtUsersCountry[] = [];
-  private countriesList: Observable<IExtUsersCountry[]>;
+  hasUpdatedData: boolean;
+  private isComponentInited = false;
+  private fetureUser: IUser;
   private selectedUser: IUser;
+  private countriesList: Observable<IExtUsersCountry[]>;
   get countriesData(): Observable<IExtUsersCountry[]> {
-    return combineLatest(
-      of(this.updatedCountries),
-      this.countriesList
-    ).pipe(
-      map(([updatedCountries, countries]) => {
-        return countries.map((country: IExtUsersCountry) => {
-          const updatedCountry: IExtUsersCountry = updatedCountries.find(
-            (updCountr: IExtUsersCountry) => {
-              return updCountr.id === country.id;
-            }
-          );
-          const resultingCountry = updatedCountry || country;
-
-          if (!resultingCountry.user) {
-            resultingCountry.user = this.selectedUser;
-          }
-
-          return resultingCountry;
-        });
-      })
-    );
+    return this.countriesList;
   }
   private countriesFilter: string;
   private prvSourceCountries: Observable<ICountry[]>;
@@ -48,17 +36,17 @@ export class UserCountriesMainPageComponent implements OnInit, IUserCountriesCon
       map((countries: ICountry[]) => {
         return countries.filter((country: ICountry) => {
           if (this.countriesFilter && country.name) {
-            return country.name.toLowerCase().includes(this.countriesFilter.toLowerCase());
+            return this.checkCountryMatching(this.countriesFilter, country);
           }
           return true;
         });
       })
     );
   }
+  userList: Observable<IUser[]>;
   private currentVisitedFilter: TVisitedTypes;
   private currentHasVisaFilter: THasVisaTypes;
   private needToLoadNewData: boolean;
-  userList: Observable<IUser[]>;
 
   constructor(
     private userCountriesService: UserCountriesService,
@@ -67,62 +55,79 @@ export class UserCountriesMainPageComponent implements OnInit, IUserCountriesCon
   ) { }
 
   ngOnInit() {
-    this.userCountriesService.fetchCountriesByFilter().subscribe(() => {});
-    this.userCountriesService.loadInitialData(); // tmp
-    this.countriesList = this.userCountriesService.getCountriesByFilter(); // tmp
+    this.userCountriesService.loadInitialData();
     this.prvSourceCountries = this.countriesService.getCountryList();
     this.userList = this.usersService.getUserList();
   }
 
   applyChanges(): void {
+    this.userCountriesService.applyChangesToUpdatedCountries(this.selectedUser);
+    this.hasUpdatedData = false;
   }
 
   countryFilterChange(countryName: string): void {
     this.countriesFilter = countryName;
-    // this.getFilter().subscribe((filterStatement: IUserCountriesFilterStatement) => {
-    //   this.countriesList = this.userCountriesService.getCountriesByFilter(
-    //     filterStatement
-    //   );
-    // });
+    this.updateCountryList();
   }
 
   hasVisaFilterChange(hasVisa: THasVisaTypes): void {
     this.currentHasVisaFilter = hasVisa;
-    this.getFilter().subscribe((filterStatement: IUserCountriesFilterStatement) => {
-      this.countriesList = this.userCountriesService.getCountriesByFilter(
-        filterStatement
-      );
-    });
+    this.updateCountryList();
   }
 
   loadData(): void {
+    this.selectedUser = this.fetureUser;
     this.getFilter().subscribe((filterStatement: IUserCountriesFilterStatement) => {
-      this.userCountriesService.fetchCountriesByFilter(filterStatement)
+      this.userCountriesService.fetchCountriesByFilter({
+        userId: filterStatement.userId
+      } as IFetchCountriesFilterStatement)
         .subscribe(() => {
-          this.countriesList = this.userCountriesService.getCountriesByFilter(
-            filterStatement
-          );
+          if (!this.isComponentInited) {
+            this.isComponentInited = true;
+          }
           this.needToLoadNewData = false;
+          this.updateCountryList(filterStatement);
         });
     });
   }
 
   setUser(user: IUser): void {
-    this.selectedUser = user;
+    this.fetureUser = user;
     this.needToLoadNewData = true;
   }
 
   visitedFilterChange(visited: TVisitedTypes): void {
     this.currentVisitedFilter = visited;
-    this.getFilter().subscribe((filterStatement: IUserCountriesFilterStatement) => {
-      this.countriesList = this.userCountriesService.getCountriesByFilter(
-        filterStatement
-      );
-    });
+    this.updateCountryList();
   }
 
   onCountryUpdated(country: IExtUsersCountry) {
-    this.updatedCountries.push(country);
+    this.userCountriesService.addTmpUpdatedCountry(country);
+    this.hasUpdatedData = true;
+  }
+
+  private updateCountryList(filterStat?: IUserCountriesFilterStatement) {
+    if (!this.isComponentInited) {
+      return;
+    }
+
+    if (filterStat) {
+      this.countriesList = this.userCountriesService.getCountriesByFilter(
+        filterStat
+      );
+    } else {
+      this.getFilter().subscribe((filterStatement: IUserCountriesFilterStatement) => {
+        this.countriesList = this.userCountriesService.getCountriesByFilter(
+          filterStatement
+        );
+      });
+    }
+  }
+
+  private checkCountryMatching(countryFilter: string, country: ICountry): boolean {
+    return country.name && (
+      country.name.toLowerCase().includes(countryFilter.toLowerCase())
+    );
   }
 
   private getFilter(): Observable<IUserCountriesFilterStatement> {
@@ -132,7 +137,11 @@ export class UserCountriesMainPageComponent implements OnInit, IUserCountriesCon
           countryId: selectedCountryId ? selectedCountryId : undefined,
           hasVisa: this.mapHasVisaFilterToBool(),
           visited: this.mapVisitedFilterToBool(),
-          userId: this.selectedUser ? this.selectedUser.id : undefined
+          userId: this.selectedUser ? this.selectedUser.id : undefined,
+          countryNameFilter: this.countriesFilter,
+          extraData: {
+            selectedUser: this.selectedUser
+          }
         };
       })
     );

@@ -16,9 +16,10 @@ import { UserCountriesService } from './services/user.countries.service';
 import { CountriesModule } from '../countries/countries.module';
 import { UsersModule } from '../users/users.module';
 import { FilterFormComponent } from './components/filter-form/filter-form.component';
+import { ActionsSectionComponent } from './components/actions-section/actions-section.component';
 
 @NgModule({
-  declarations: [UserCountriesMainPageComponent, CountriesTableComponent, FilterFormComponent],
+  declarations: [UserCountriesMainPageComponent, CountriesTableComponent, FilterFormComponent, ActionsSectionComponent],
   providers: [
     UserCountriesService
   ],

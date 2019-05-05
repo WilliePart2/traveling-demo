@@ -2,9 +2,13 @@ import { IStateFacade } from '../store.types';
 import { QueryEntity } from '@datorama/akita';
 
 export class BaseStateFacade implements IStateFacade {
-  constructor(protected query: QueryEntity<any, any>) {}
+  private idCounter: number;
+  constructor(protected query: QueryEntity<any, any>) {
+    this.idCounter = query.getCount();
+  }
 
   generateId(): number {
-    return this.query.getCount() + 1;
+    this.idCounter += 1;
+    return this.idCounter;
   }
 }

@@ -3,6 +3,7 @@ import { ICountry } from '../countries/country.types';
 import { IUserCountriesFilterStatement } from '../store/store.types';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
+import { CommonTexts } from '../configuration/models/common.texts';
 
 export interface IUsersCountry {
   id: number;
@@ -25,16 +26,34 @@ export interface IAddUserCountryStatement {
   hasVisa: boolean;
 }
 
+export interface IUserCountriesFilterStatement {
+  userId?: number;
+  visited?: boolean;
+  hasVisa?: boolean;
+  countryId?: number;
+  countryNameFilter?: string;
+  extraData: ICountriesMappingData;
+}
+
+export interface ICountriesMappingData {
+  selectedUser: IUser;
+}
+
+export interface IFetchCountriesFilterStatement {
+  userId: number;
+}
+
 export interface IUserCountriesService {
   loadInitialData(): void;
-  fetchCountriesByFilter(filter?: IUserCountriesFilterStatement): Observable;
+  fetchCountriesByFilter(filter?: IFetchCountriesFilterStatement): Observable;
   getCountriesByFilter(filter?: IUserCountriesFilterStatement): Observable<IExtUsersCountry[]>;
-  addUserCountry(data: IAddUserCountryStatement): Observable<IUsersCountry>;
-  updateUserCountry(updatedCountry: Partial<IUsersCountry>): Observable<IUsersCountry>;
+  addTmpUpdatedCountry(country: IExtUsersCountry): void;
+  applyChangesToUpdatedCountries(user: IUser): void;
 }
 
 export interface IUserCountriesControllerComponent {
   countriesData: Observable<IExtUsersCountry[]>;
+  hasUpdatedData: boolean;
   countryFilterChange(countryName: string): void;
   visitedFilterChange(visited: TVisitedTypes): void;
   hasVisaFilterChange(hasVisa: THasVisaTypes): void;
@@ -58,6 +77,19 @@ export interface IFilterFormComponent {
   getVisitedSelectLabel(visitedType: TVisitedTypes): string;
   getHasVisaSelectLabel(hasVisaValue: THasVisaTypes): string;
   fireGetData(): void;
+}
+
+export interface IActionSeectionComponent {
+  saveChangesFired: EventEmitter<void>;
+  canAcceptAction: boolean;
+  texts: CommonTexts;
+  onSaveChanges(): void;
+}
+
+export interface ISortedUpdatedCountries {
+  countriesForDelete: IUsersCountry[];
+  countriesForUpdate: IUsersCountry[];
+  countriesForAdd: IUsersCountry[];
 }
 
 export enum TVisitedTypes {
