@@ -131,7 +131,7 @@ export class UserCountriesQuery extends QueryEntity<IUserCountriesState, IUsersC
 
   private findCountryById<T, R = IUsersCountry>(targetCountry: T, countryList: R[]): R {
     return countryList.find((country: R) => {
-      return (country as IUsersCountry).countryId === (targetCountry as ICountry).id;
+      return (country as any).countryId === (targetCountry as any).id;
     });
   }
 }

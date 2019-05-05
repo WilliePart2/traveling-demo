@@ -37,7 +37,7 @@ export class UserCountriesService implements IUserCountriesService {
     this.usersService.initUsersList();
   }
 
-  fetchCountriesByFilter(filter?: IFetchCountriesFilterStatement): Observable {
+  fetchCountriesByFilter(filter?: IFetchCountriesFilterStatement): Observable<IUsersCountry[]> {
     return this.api.getUserCountriesList(filter)
       .pipe(
         tap((countriesList: IUsersCountry[]) => {

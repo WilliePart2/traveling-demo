@@ -81,22 +81,22 @@ export class FilterFormComponent implements OnInit, IFilterFormComponent, OnDest
   getHasVisaSelectLabel(hasVisaValue: THasVisaTypes): string {
     switch (hasVisaValue) {
       case THasVisaTypes.EMPTY:
-        return 'empty';
+        return this.texts.empty;
       case THasVisaTypes.HAS:
-        return 'has';
+        return this.texts.hasVisa;
       case THasVisaTypes.NO:
-        return 'no';
+        return this.texts.notHasVisa;
     }
   }
 
   getVisitedSelectLabel(visitedType: TVisitedTypes): string {
     switch (visitedType) {
       case TVisitedTypes.EMPTY:
-        return 'empty';
+        return this.texts.empty;
       case TVisitedTypes.VISITED:
-        return 'visited';
+        return this.texts.visited;
       case TVisitedTypes.NOT_VISITED:
-        return 'not_visited';
+        return this.texts.notVisited;
     }
   }
 

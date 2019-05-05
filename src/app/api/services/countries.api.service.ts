@@ -9,7 +9,8 @@ export class CountriesApiService implements ICountriesApi {
   constructor(private api: ApiService) {}
 
   createCountry(country: ICountry): Observable<ICountry> {
-    return this.api.makePostRequest('/countries', country);
+    const { id, ...restData} = country;
+    return this.api.makePostRequest('/countries', restData);
   }
 
   getAllCountries(): Observable<ICountry[]> {

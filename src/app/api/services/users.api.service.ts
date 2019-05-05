@@ -9,7 +9,8 @@ export class UsersApiService implements IUsersApi {
   constructor(private api: ApiService) {}
 
   createUser(user: IUser): Observable<IUser> {
-    return this.api.makePostRequest<IUser>('/users', user);
+    const { id, ...restData } = user;
+    return this.api.makePostRequest<IUser>('/users', restData);
   }
 
   getAllUsers(): Observable<IUser[]> {

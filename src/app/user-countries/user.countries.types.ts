@@ -1,6 +1,5 @@
 import { IUser } from '../users/users.types';
 import { ICountry } from '../countries/country.types';
-import { IUserCountriesFilterStatement } from '../store/store.types';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { CommonTexts } from '../configuration/models/common.texts';
@@ -45,7 +44,7 @@ export interface IFetchCountriesFilterStatement {
 
 export interface IUserCountriesService {
   loadInitialData(): void;
-  fetchCountriesByFilter(filter?: IFetchCountriesFilterStatement): Observable;
+  fetchCountriesByFilter(filter?: IFetchCountriesFilterStatement): Observable<IUsersCountry[]>;
   getCountriesByFilter(filter?: IUserCountriesFilterStatement): Observable<IExtUsersCountry[]>;
   addTmpUpdatedCountry(country: IExtUsersCountry): void;
   applyChangesToUpdatedCountries(user: IUser): void;
