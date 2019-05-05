@@ -9,6 +9,9 @@ import { MessagesStateFacade } from './facades/messages.state.facade';
 import { CountryStore } from './states/countries.state';
 import { CountryQuery } from './queries/country.query';
 import { CountriesStateFacade } from './facades/countries.state.facade';
+import { UserCountriesStore } from './states/user.countries.state';
+import { UserCountriesQuery } from './queries/user.countries.query';
+import { UsersCountriesStateFacade } from './facades/users.countries.state.facade';
 
 @NgModule({
   declarations: [],
@@ -21,7 +24,10 @@ import { CountriesStateFacade } from './facades/countries.state.facade';
     MessagesStateFacade,
     CountryStore,
     CountryQuery,
-    CountriesStateFacade
+    CountriesStateFacade,
+    UserCountriesStore,
+    UserCountriesQuery,
+    UsersCountriesStateFacade
   ],
   imports: [
     CommonModule

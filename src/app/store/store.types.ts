@@ -3,12 +3,15 @@ import { IUser } from '../users/users.types';
 import { ICountry } from '../countries/country.types';
 import { Observable } from 'rxjs';
 import { IMessage } from '../messages/messages.types';
+import { IExtUsersCountry, IUsersCountry } from '../user-countries/user.countries.types';
 
 export interface IUsersState extends EntityState<IUser> {}
 
 export interface ICountriesState extends EntityState<ICountry> {}
 
 export interface IMessagesState extends EntityState<IMessage> {}
+
+export interface IUserCountriesState extends EntityState<IUsersCountry> {}
 
 export interface IUsersQuery {
   getUsersList(): Observable<IUser[]>;
@@ -46,3 +49,23 @@ export interface ICountryQuery {
   getRawCountryList(): ICountry[];
   getCountriesCount(): number;
 }
+
+export interface IUsersCountriesQuery {
+  getUsersCountries(filters: IUserCountriesFilterStatement): Observable<IExtUsersCountry[]>;
+}
+
+export interface IUsersCountriesStateFacade {
+  setUsersCountry(countryList: IUsersCountry[]): void;
+  addUsersCountry(country: IUsersCountry): void;
+  updateUsersCountry(id: number, updatingData: Partial<IUsersCountry>): void;
+  removeUsersCountry(id: number): void;
+}
+
+export interface IUserCountriesFilterStatement {
+  userId?: number;
+  visited?: boolean;
+  hasVisa?: boolean;
+  countryId?: number;
+}
+
+export type TFilterFunction = (item: any, index?: number) => boolean;

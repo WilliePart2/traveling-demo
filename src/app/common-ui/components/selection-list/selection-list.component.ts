@@ -11,7 +11,7 @@ import {MatSelectionList, MatSelectionListChange} from '@angular/material';
 export class SelectionListComponent implements OnInit, IFormComponent {
   @Input() items: Observable<IListItem>;
 
-  @Output() itemSelected: EventEmitter = new EventEmitter<IListItem>();
+  @Output() itemSelected: EventEmitter<IListItem> = new EventEmitter<IListItem>();
   @ViewChild('selectionList') selectionList: MatSelectionList;
   selectionSub: Subscription;
   selectedItem: IListItem;

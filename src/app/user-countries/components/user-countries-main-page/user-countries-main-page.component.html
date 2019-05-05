@@ -1,3 +1,13 @@
-<p>
-  user-countries-main-page works!
-</p>
+<div>
+  <app-filter-form [countriesList]="sourceCountries"
+                   [userList]="userList"
+                   (countryChange)="countryFilterChange($event)"
+                   (selectUser)="setUser($event)"
+                   (visitedChange)="visitedFilterChange($event)"
+                   (hasVisaChange)="hasVisaFilterChange($event)"
+                   (getDataFired)="loadData()"
+  ></app-filter-form>
+  <app-countries-table [countriesList]="countriesData"
+                       (countryChanged)="onCountryUpdated($event)"
+  ></app-countries-table>
+</div>

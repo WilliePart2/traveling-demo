@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./text-field.component.scss']
 })
 export class TextFieldComponent implements OnInit, OnDestroy, IFormComponent {
-  @Output() valueChange: EventEmitter = new EventEmitter<string>();
+  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
   @Input() label: string;
   @Input() placeholder = '';
   @Input() errorMsg: string;
