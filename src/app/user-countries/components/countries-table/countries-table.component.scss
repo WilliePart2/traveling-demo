@@ -1,0 +1,26 @@
+.table-container {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.countries-table {
+  width: 100%;
+}
+
+.mat-column-visited,
+.mat-column-hasVisa {
+  width: 10%;
+  position: relative;
+  text-align: center;
+
+  .mat-checkbox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.mat-column-hasVisa {
+
+}

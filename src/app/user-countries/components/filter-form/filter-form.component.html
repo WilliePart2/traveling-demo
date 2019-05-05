@@ -1,0 +1,68 @@
+<form [formGroup]="filteringForm" class="filter-form-container">
+  <div>
+    <mat-form-field>
+      <mat-label>
+        {{texts.usernameFieldLabel}}
+      </mat-label>
+      <mat-select [formControlName]="'username'">
+        <mat-option *ngFor="let user of userList | async" [value]="user">
+          {{user.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        {{texts.usernameErrorMsg}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>
+        {{texts.countryName}}
+      </mat-label>
+      <input matInput
+             type="text"
+             [formControlName]="'country'"
+             [matAutocomplete]="countryAutocomplete"
+      />
+      <mat-autocomplete #countryAutocomplete="matAutocomplete">
+        <mat-option *ngFor="let country of countriesList | async"
+                    [value]="country.name"
+        >
+          {{country.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>
+        {{texts.visitedFieldLabel}}
+      </mat-label>
+      <mat-select [formControlName]="'visited'">
+        <mat-option *ngFor="let item of visitedOptions" [value]="item">
+          {{getVisitedSelectLabel(item)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>
+        {{texts.hasVisaFieldLabel}}
+      </mat-label>
+      <mat-select [formControlName]="'hasVisa'">
+        <mat-option *ngFor="let item of hasVisaOptions" [value]="item">
+          {{getHasVisaSelectLabel(item)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="btn-container">
+    <button mat-raised-button color="primary"
+            (click)="fireGetData()"
+            [disabled]="!isValid"
+    >
+      {{texts.applyFilters}}
+    </button>
+  </div>
+</form>

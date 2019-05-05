@@ -3,6 +3,14 @@ import { ICommonTexts } from '../configuration.types';
 
 @Injectable()
 export class CommonTexts implements ICommonTexts {
+  empty = 'Пусто';
+  hasVisa = 'Есть виза';
+  notHasVisa = 'Нет визы';
+  notVisited = 'Не посещено';
+  visited = 'Посещено';
+  countries = 'Страны';
+  userCountries = 'Страны пользователя';
+  users = 'Пользователи';
   countryName = 'Имя страны';
   countryNameError = 'Имя страны должно быть указано';
   countrySelectError = 'You should select the country';

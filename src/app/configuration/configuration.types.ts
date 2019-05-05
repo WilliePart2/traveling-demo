@@ -20,6 +20,18 @@ export interface ICommonTexts {
   applyFilters: string;
   applyChanges: string;
 
+  // menu labels
+  users: string;
+  countries: string;
+  userCountries: string;
+
+  // select labels
+  visited: string;
+  notVisited: string;
+  empty: string;
+  hasVisa: string;
+  notHasVisa: string;
+
   // error labels
   usernameErrorMsg: string;
   userCreatingError: string;

@@ -1,0 +1,17 @@
+.filter-form-container {
+  margin: 0 0 20px 0;
+
+  div:not(& div:last-child) > * {
+    width: 100%;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      flex-basis: 100px;
+      flex-grow: 0;
+    }
+  }
+}

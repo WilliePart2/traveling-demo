@@ -1,0 +1,43 @@
+<div class="table-container mat-elevation-z8">
+  <table mat-table [dataSource]="countriesList" class="countries-table">
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>
+        {{texts.usernameFieldLabel}}
+      </th>
+      <td mat-cell *matCellDef="let country">
+        {{country?.user?.name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="countryName">
+      <th mat-header-cell *matHeaderCellDef>
+        {{texts.countryName}}
+      </th>
+      <td mat-cell *matCellDef="let country">
+        {{country?.country?.name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="visited">
+      <th mat-header-cell *matHeaderCellDef>
+        {{texts.visitedFieldLabel}}
+      </th>
+      <td mat-cell *matCellDef="let country">
+        <mat-checkbox [checked]="country.visited"
+                      (click)="onVisitedChange(country)"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="hasVisa">
+      <th mat-header-cell *matHeaderCellDef>
+        {{texts.hasVisaFieldLabel}}
+      </th>
+      <td mat-cell *matCellDef="let country">
+        <mat-checkbox [checked]="country.hasVisa"
+                      (click)="onHasVisaChange(country)"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+</div>
+

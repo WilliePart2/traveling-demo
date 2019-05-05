@@ -10,14 +10,18 @@ import { CommonTexts } from '../../../configuration/models/common.texts';
   styleUrls: ['./main-menu.component.scss']
 })
 export class MainMenuComponent implements OnInit {
-  menuItems: IMenuItem[] = [
-    { link: RoutingConfig.USERS, label: 'Users' },
-    { link: RoutingConfig.COUNTRIES, label: 'Countries' },
-    { link: RoutingConfig.USER_COUNTRIES, label: 'User countries' }
-  ];
   texts: CommonTexts;
+  menuItems: IMenuItem[] = [];
 
-  constructor(private config: MainConfigService) { }
+  constructor(private config: MainConfigService) {
+    this.texts = config.commonTexts();
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.menuItems = [
+      { link: RoutingConfig.USERS, label: this.texts.users },
+      { link: RoutingConfig.COUNTRIES, label: this.texts.countries },
+      { link: RoutingConfig.USER_COUNTRIES, label: this.texts.userCountries }
+    ];
+  }
 }
